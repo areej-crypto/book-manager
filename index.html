@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📚 Book Manager</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Book Input Form -->
+    <section class="form-section">
+      <h2>📚 Add a New Book</h2>
+      <form class="form-content">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" placeholder="Book title" />
+        </div>
+        <div class="form-group">
+          <label for="author">Author</label>
+          <input type="text" id="author" placeholder="Author name" />
+        </div>
+        <div class="form-group">
+          <label for="genre">Genre</label>
+          <input type="text" id="genre" placeholder="Genre" />
+        </div>
+        <div class="form-group full-width">
+          <button type="submit">➕ Add Book</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Book List Table -->
+    <section class="table-section">
+      <h2>📖 Books List</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- No data yet -->
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+
+  <script>
+  const form = document.querySelector('.form-content');
+  const titleInput = document.getElementById('title');
+  const authorInput = document.getElementById('author');
+  const genreInput = document.getElementById('genre');
+  const tableBody = document.querySelector('table tbody');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent form from refreshing the page
+
+    const title = titleInput.value.trim();
+    const author = authorInput.value.trim();
+    const genre = genreInput.value.trim();
+
+    // Don't add if fields are empty
+    if (title === '' || author === '' || genre === '') {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Create new row and cells
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td>${title}</td>
+      <td>${author}</td>
+      <td>${genre}</td>
+      <td><button class="delete-btn">🗑️ Delete</button></td>
+
+    `;
+    // Attach delete event to the button
+    newRow.querySelector('.delete-btn').addEventListener('click', function () {
+      newRow.remove();
+    });
+
+    // Confirm delete
+    newRow.querySelector('.delete-btn').addEventListener('click', function () {
+      const confirmDelete = confirm("Are you sure you want to delete this book?");
+      if (confirmDelete) {
+        newRow.remove();
+      }
+    });
+    // Append to the table
+    tableBody.appendChild(newRow);
+
+    // Clear input fields
+    titleInput.value = '';
+    authorInput.value = '';
+    genreInput.value = '';
+  });
+</script>
+
+
+</body>
+</html>
